@@ -34,7 +34,14 @@ imgList = []
 
 insta = soup.select('.v1Nh3.kIKUG._bz0w')
 
-for i in range(0,50):
+SCROLL_PAUASE_TIME = 1.5
+
+while True:
+    time.sleep(SCROLL_PAUASE_TIME)
+    last_height = driver.execute_script("return document.body.scrollHeight")
+    driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
+    time.sleep(SCROLL_PAUASE_TIME)
+    new_height = driver.execute_script("return document.body.scrollHeight")   
     for i in insta:
         print('https://www.instagram.com' + i.a['href'])
         imgUrl = i.select_one('.KL4Bh').img['src']
@@ -43,16 +50,26 @@ for i in range(0,50):
         html = driver.page_source
         soup = BeautifulSoup(html)
         insta = soup.select('.v1Nh3.kIKUG._bz0w')
+    if new_height == last_height: 
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") 
+        time.sleep(SCROLL_PAUASE_TIME) 
+        new_height = driver.execute_script("return document.body.scrollHeight") 
+        if new_height == last_height: 
+            break 
+        else: 
+            last_height = new_height 
+            continue
 
-    driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
+    
     time.sleep(2)
+
 
 n=0
 
-for i in range(0,300):
+for i in range(0,100000000000000000000):
     imageurl = imgList[n]
     with urlopen(imageurl) as f:
-        with open('./img/' + plusurl + str(n)+ '.jpg', 'wb')as h:
+        with open('./img/' + 'insta' + str(n)+ '.jpg', 'wb')as h:
             img = f.read()
             h.write(img)
     n+=1
