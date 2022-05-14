@@ -69,7 +69,7 @@ n=0
 for i in range(0,100000000000000000000):
     imageurl = imgList[n]
     with urlopen(imageurl) as f:
-        with open('./img/' + 'insta' + str(n)+ '.jpg', 'wb')as h:
+        with open('./img/' + 'google' + str(n+2000)+ '.jpg', 'wb')as h:
             img = f.read()
             h.write(img)
     n+=1
